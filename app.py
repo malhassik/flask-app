@@ -12,6 +12,17 @@ def home():
     return render_template("index.html", company_name="Логистрим")
 
 
+@app.route("/admin")
+def admin():
+    try:
+        with open("orders.json", encoding="utf-8") as file:
+            orders = json.load(file)
+    except FileNotFoundError:
+        orders = []
+
+    return render_template("admin.html", orders=orders)
+
+
 @app.route("/submit", methods=["POST"])
 def submit():
     # 1. Получаем данные из формы
@@ -45,11 +56,6 @@ def submit():
 
     # 5. Возвращаем красивую страницу
     return render_template("success.html", name=client_name)
-
-    # Выводим в консоль терминала
-    print(f"Новая заявка! Клиент: {client_name}. Маршрут: {from_city} -> {to_city}")
-
-    return "<h2>Спасибо! Ваша заявка принята.</h2>"
 
 
 if __name__ == "__main__":

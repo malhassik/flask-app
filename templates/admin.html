@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Заявки | Логистрим</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            padding: 20px;
+        }
+
+        .container {
+            background: white;
+            width: 80%;
+            margin: 0 auto;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            color: #333;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th,
+        td {
+            padding: 12px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+
+        th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        .empty {
+            text-align: center;
+            color: #777;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Панель управления Логистрим</h1>
+        <p>Всего заявок: <b>{{ orders|length }}</b></p>
+
+        {% if orders %}
+        <!-- Если заявки есть, выводим таблицу -->
+        <table>
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Дата</th>
+                    <th>Клиент</th>
+                    <th>Откуда</th>
+                    <th>Куда</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Цикл Jinja2: перебираем все заявки -->
+                {% for order in orders %}
+                <tr>
+                    <td>{{ loop.index }}</td> <!-- Автоматический номер по порядку -->
+                    <td>{{ order.created_at }}</td>
+                    <td>{{ order.client_name }}</td>
+                    <td>{{ order.from_city }}</td>
+                    <td>{{ order.to_city }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <!-- Если заявок нет -->
+        <p class="empty">Заявок пока нет. Как только клиенты заполнят форму, они появятся здесь.</p>
+        {% endif %}
+
+        <br>
+        <a href="/" style="color: #007bff; text-decoration: none;">← Вернуться на главную</a>
+    </div>
+</body>
+
+</html>
