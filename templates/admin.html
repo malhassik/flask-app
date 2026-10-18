@@ -6,50 +6,78 @@
     <title>Заявки | Логистрим</title>
     <style>
         body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            padding: 20px;
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background-color: #121212;
+            color: #e0e0e0;
+            padding: 40px;
         }
 
         .container {
-            background: white;
-            width: 80%;
+            background: #1e1e1e;
+            width: 85%;
             margin: 0 auto;
-            padding: 20px;
+            padding: 30px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
+            border: 1px solid #333;
         }
 
         h1 {
-            color: #333;
+            color: #ffffff;
+            margin-bottom: 10px;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            margin-top: 20px;
+            margin-top: 25px;
         }
 
         th,
         td {
-            padding: 12px;
-            border: 1px solid #ddd;
+            padding: 15px;
             text-align: left;
+            border-bottom: 1px solid #333;
         }
 
         th {
-            background-color: #007bff;
-            color: white;
+            background-color: #2d2d2d;
+            color: #007bff;
+            /* Синие заголовки */
+            font-weight: bold;
+            text-transform: uppercase;
+            font-size: 14px;
+            letter-spacing: 1px;
         }
 
+        /* Зебра: чередование цветов строк для читаемости */
         tr:nth-child(even) {
-            background-color: #f9f9f9;
+            background-color: #252525;
+        }
+
+        tr:hover {
+            background-color: #2a2a2a;
+            /* Подсветка строки при наведении мыши */
+            transition: 0.2s;
         }
 
         .empty {
             text-align: center;
             color: #777;
-            margin-top: 20px;
+            margin-top: 30px;
+            font-style: italic;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 25px;
+            color: #007bff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        .back-link:hover {
+            color: #4da3ff;
         }
     </style>
 </head>
@@ -57,10 +85,9 @@
 <body>
     <div class="container">
         <h1>Панель управления Логистрим</h1>
-        <p>Всего заявок: <b>{{ orders|length }}</b></p>
+        <p style="color: #bbbbbb;">Всего заявок: <b style="color: #fff;">{{ orders|length }}</b></p>
 
         {% if orders %}
-        <!-- Если заявки есть, выводим таблицу -->
         <table>
             <thead>
                 <tr>
@@ -72,12 +99,11 @@
                 </tr>
             </thead>
             <tbody>
-                <!-- Цикл Jinja2: перебираем все заявки -->
                 {% for order in orders %}
                 <tr>
-                    <td>{{ loop.index }}</td> <!-- Автоматический номер по порядку -->
+                    <td>{{ loop.index }}</td>
                     <td>{{ order.created_at }}</td>
-                    <td>{{ order.client_name }}</td>
+                    <td style="font-weight: bold; color: #fff;">{{ order.client_name }}</td>
                     <td>{{ order.from_city }}</td>
                     <td>{{ order.to_city }}</td>
                 </tr>
@@ -85,12 +111,10 @@
             </tbody>
         </table>
         {% else %}
-        <!-- Если заявок нет -->
         <p class="empty">Заявок пока нет. Как только клиенты заполнят форму, они появятся здесь.</p>
         {% endif %}
 
-        <br>
-        <a href="/" style="color: #007bff; text-decoration: none;">← Вернуться на главную</a>
+        <a href="/" class="back-link">← Вернуться на главную</a>
     </div>
 </body>
 
