@@ -127,6 +127,8 @@ def delete_order_id(order_id):
     conn.commit()
     conn.close()
 
+    return redirect(url_for("admin"))
+
 
 if __name__ == "__main__":
     # Render передает порт через переменную окружения PORT
