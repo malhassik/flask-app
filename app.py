@@ -29,7 +29,8 @@ def init_db():
             client_name TEXT NOT NULL,
             from_city TEXT NOT NULL,
             to_city TEXT NOT NULL,
-            created_at TEXT NOT NULL
+            created_at TEXT NOT NULL,
+            status TEXT DEFAULT 'Новая'
         )
     """)
     conn.commit()
@@ -99,6 +100,21 @@ def admin():
     conn.close()
 
     return render_template("admin.html", orders=orders)
+
+
+@app.route("/complete/<int:order_id>")
+def complete_order(order_id):
+    # Проверка, что мы авторизованы
+    if not session.get("is_admin"):
+        return redirect(url_for("login"))
+
+    conn = get_db_connection()
+    # SQL-запрос UPDATE: меняем статус у конкретной заявки (WHERE id = ?)
+    conn.execute("UPDATE orders SET status = 'Выполнена' WHERE id = ?", (order_id,))
+    conn.commit()
+    conn.close()
+
+    return redirect(url_for("admin"))  # Возвращаемся обратно в админку
 
 
 if __name__ == "__main__":

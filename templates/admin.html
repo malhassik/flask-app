@@ -96,9 +96,12 @@
                     <th>Клиент</th>
                     <th>Откуда</th>
                     <th>Куда</th>
+                    <th>Статус</th> <!-- Новые заголовки -->
+                    <th>Действие</th>
                 </tr>
             </thead>
             <tbody>
+                <!-- ЦИКЛ НАЧИНАЕТСЯ ЗДЕСЬ -->
                 {% for order in orders %}
                 <tr>
                     <td>{{ loop.index }}</td>
@@ -106,8 +109,24 @@
                     <td style="font-weight: bold; color: #fff;">{{ order.client_name }}</td>
                     <td>{{ order.from_city }}</td>
                     <td>{{ order.to_city }}</td>
+
+                    <!-- НОВЫЕ ЯЧЕЙКИ ВНУТРИ ЦИКЛА -->
+                    <td>
+                        <span style="color: {% if order.status == 'Выполнена' %}#2ecc71{% else %}#f1c40f{% endif %};">
+                            {{ order.status }}
+                        </span>
+                    </td>
+                    <td>
+                        {% if order.status == 'Новая' %}
+                        <a href="/complete/{{ order.id }}"
+                            style="color: #007bff; text-decoration: none; border: 1px solid #007bff; padding: 5px 10px; border-radius: 5px; font-size: 14px;">Выполнить</a>
+                        {% else %}
+                        <span style="color: #555;">✓ Готово</span>
+                        {% endif %}
+                    </td>
                 </tr>
                 {% endfor %}
+                <!-- ЦИКЛ ЗАКАНЧИВАЕТСЯ ЗДЕСЬ -->
             </tbody>
         </table>
         {% else %}
