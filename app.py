@@ -117,7 +117,7 @@ def complete_order(order_id):
     return redirect(url_for("admin"))  # Возвращаемся обратно в админку
 
 
-@app.route("/delete/<int:order_id")
+@app.route("/delete/<int:order_id>")
 def delete_order_id(order_id):
     if not session.get("is_admin"):
         return redirect(url_for(login))
