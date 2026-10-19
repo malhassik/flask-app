@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import Flask, render_template, request, session, redirect, url_for, jsonify
 import sqlite3
 from datetime import datetime
 import os
@@ -87,7 +87,10 @@ def submit():
 
     print(f"Заявка от {client_name} сохранена в базу данных!")
 
-    return render_template("success.html", name=client_name)
+    # Возвращаем JSON-ответ для JavaScript
+    return jsonify(
+        {"status": "success", "message": f"Спасибо, {client_name}! Заявка принята."}
+    )
 
 
 @app.route("/admin")

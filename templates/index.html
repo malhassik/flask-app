@@ -85,32 +85,37 @@
 
 <body>
     <div class="container">
-        <h1>Добро пожаловать в {{ company_name }}!</h1>
+        <h1 id="main-title">Добро пожаловать в {{ company_name }}!</h1>
         <p>Мы осуществляем надежные грузоперевозки по всей России.</p>
 
-        <form action="/submit" method="POST">
+        <form id="order-form">
             <div>
                 <label>Ваше имя:</label><br>
-                <input type="text" name="client_name" required style="width: 100%; box-sizing: border-box;">
+                <input id="client-name" type="text" name="client_name" required
+                    style="width: 100%; box-sizing: border-box;">
             </div>
             <div>
                 <label>Откуда:</label><br>
-                <input type="text" name="from_city" required style="width: 100%; box-sizing: border-box;">
+                <input id="from_city" type="text" name="from_city" required
+                    style="width: 100%; box-sizing: border-box;">
             </div>
             <div>
                 <label>Куда:</label><br>
-                <input type="text" name="to_city" required style="width: 100%; box-sizing: border-box;">
+                <input id="to_city" type="text" name="to_city" required style="width: 100%; box-sizing: border-box;">
             </div>
             <button type="submit">Оставить заявку</button>
+
         </form>
 
-
+        <div id="message-box" style="margin-top: 20px; font-weight: bold;"></div>
 
     </div>
 
     <div style="margin-top: 30px; font-size: 14px;">
         <a href="/admin" style="color: #777; text-decoration: none;">Панель управления (для сотрудников)</a>
     </div>
+
+    <script src="{{ url_for('static', filename='script.js') }}"></script>
 </body>
 
 </html>
