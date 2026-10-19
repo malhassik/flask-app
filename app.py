@@ -1,8 +1,14 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, redirect, url_for
 import sqlite3
 from datetime import datetime
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 app = Flask(__name__)
+
+app.secret_key = "544"
 
 
 # Функция для подключения к базе данных
@@ -39,6 +45,29 @@ def home():
     return render_template("index.html", company_name="Логистрим")
 
 
+@app.route("/login", methods=["GET", "POST"])
+def login():
+    if request.method == "POST":
+        user_password = request.form.get("password")
+        real_password = os.getenv("ADMIN_PASSWORD")
+
+        if user_password == real_password:
+            # Пароль верный! Записываем в сессию отметку, что мы вошли
+            session["is_admin"] = True
+            return redirect(url_for("admin"))  # Перекидываем в админку
+        else:
+            return render_template("login.html", error="Неверный пароль")
+
+    return render_template("login.html")
+
+
+@app.route("/logout")
+def logout():
+    # Очищаем сессию (выходим)
+    session.pop("is_admin", None)
+    return redirect(url_for("home"))
+
+
 @app.route("/submit", methods=["POST"])
 def submit():
     client_name = request.form.get("client_name")
@@ -62,6 +91,8 @@ def submit():
 
 @app.route("/admin")
 def admin():
+    if not session.get("is_admin"):
+        return redirect(url_for("login"))
     # Подключаемся к базе и берем все заявки (SELECT)
     conn = get_db_connection()
     orders = conn.execute("SELECT * FROM orders ORDER BY id DESC").fetchall()
