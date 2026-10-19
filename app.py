@@ -123,7 +123,7 @@ def delete_order_id(order_id):
         return redirect(url_for(login))
 
     conn = get_db_connection()
-    conn.execute("DELETE FROM order WHERE id = ?", (order_id))
+    conn.execute("DELETE FROM orders WHERE id = ?", (order_id,))
     conn.commit()
     conn.close()
 
@@ -134,4 +134,4 @@ if __name__ == "__main__":
     # Render передает порт через переменную окружения PORT
     port = int(os.environ.get("PORT", 5000))
     # host="0.0.0.0" обязателен для работы внутри контейнеров хостинга
-    app.run(host="0.0.0.0", port=port)
+    app.run(host="0.0.0.0", port=port, debug=True)
